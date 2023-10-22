@@ -32,3 +32,14 @@ export async function getJob() {
       }`
 	);
 }
+export async function getProjects() {
+	return client.fetch(
+		groq`*[_type == "project"]{
+      _id, 
+      name,
+      "slug": slug.current,
+      tagline,
+      "logo": logo.asset->url,
+    }`
+	);
+}
