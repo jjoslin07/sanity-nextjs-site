@@ -10,8 +10,8 @@
 	},
 	"dependencies": {
 		"@sanity/vision": "3.18.1",
-		"next": "^14.0.3-canary.3",
-		"next-sanity": "^6.0.1",
+		"next": "13.5.6",
+		"next-sanity": "^5.5.8",
 		"react": "^18",
 		"react-dom": "^18",
 		"sanity": "^3.18.1"
