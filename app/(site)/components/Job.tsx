@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { getJob } from '@/sanity/sanity.query';
 import type { JobType } from '@/types';
 // Define the date type for better type checking
-type DateType = string;
+type DateType = string|Date;
 
 export default async function Job() {
 	const job: JobType[] = await getJob();
