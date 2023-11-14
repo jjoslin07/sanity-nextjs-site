@@ -1,9 +1,33 @@
 import Image from 'next/image';
 import { getJob } from '@/sanity/sanity.query';
 import type { JobType } from '@/types';
+// Define the date type for better type checking
+type DateType = string;
 
 export default async function Job() {
 	const job: JobType[] = await getJob();
+	// Sort jobs chronologically with the most recent job first
+	const sortedJobs = job.sort((a, b) => {
+		const dateA = new Date(a.endDate || '9999-12-31').getTime();
+		const dateB = new Date(b.endDate || '9999-12-31').getTime();
+		return dateB - dateA;
+	});
+
+	// Add a function to format the date
+	function formatDate(date: DateType): string {
+		// Check if the date is available and not "present"
+		if (date && date !== 'present') {
+			// Use a date formatting library or JavaScript Date methods
+			// Example using Intl.DateTimeFormat
+			return new Intl.DateTimeFormat('en-US', {
+				year: 'numeric',
+				month: 'short',
+			}).format(new Date(date));
+		} else {
+			// If the date is not available or set to "present"
+			return 'Present';
+		}
+	}
 
 	return (
 		<section className="mt-32">
@@ -33,7 +57,8 @@ export default async function Job() {
 							<h3 className="text-xl font-bold">{data.name}</h3>
 							<p>{data.jobTitle}</p>
 							<small className="text-sm text-zinc-500 mt-2 tracking-widest uppercase">
-								{data.startDate.toString()} - {data.endDate.toString()}
+								{formatDate(data.startDate)} -{' '}
+								{data.endDate ? formatDate(data.endDate) : 'Present'}
 							</small>
 							<p className="text-base text-zinc-400 my-4">{data.description}</p>
 						</div>
